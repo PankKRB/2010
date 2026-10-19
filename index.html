@@ -622,6 +622,138 @@ transform:translateY(105%);transition:transform .3s ease;
 }
 #admin-panel.open{transform:translateY(0)}
 
+/* ---------- Gate Screen (Passcode Lock) ---------- */
+#screen-gate {
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.gate-card {
+  margin: auto;
+  width: min(100%, 360px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(255, 205, 220, 0.9);
+  border-radius: 28px;
+  padding: 34px 24px 28px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(184, 63, 92, 0.16), 0 4px 14px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  transition: transform 0.3s ease, opacity 0.5s ease;
+}
+.gate-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd3de, #fbaec0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rose-deep);
+  margin-bottom: 16px;
+  box-shadow: 0 8px 20px rgba(217, 97, 122, 0.28);
+  animation: pulse-gate 2.2s infinite ease-in-out;
+}
+@keyframes pulse-gate {
+  0%, 100% { transform: scale(1); box-shadow: 0 8px 20px rgba(217, 97, 122, 0.28); }
+  50% { transform: scale(1.08); box-shadow: 0 12px 28px rgba(217, 97, 122, 0.42); }
+}
+.gate-title {
+  font-family: var(--script);
+  font-size: 32px;
+  color: var(--rose-deep);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.gate-sub {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin-bottom: 22px;
+}
+.gate-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.gate-input-wrap {
+  width: 100%;
+}
+.gate-input {
+  width: 100%;
+  padding: 13px 16px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-align: center;
+  color: var(--rose-deep);
+  background: #fff;
+  border: 2px solid #f6c2ce;
+  border-radius: 16px;
+  outline: none;
+  transition: all 0.25s ease;
+  font-family: var(--sans);
+}
+.gate-input:focus {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 4px rgba(217, 97, 122, 0.18);
+}
+.gate-input::placeholder {
+  color: #dfb2bc;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+.gate-btn {
+  width: 100%;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 16px;
+  box-shadow: 0 8px 22px rgba(184, 63, 92, 0.32);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.gate-btn:active {
+  transform: scale(0.97);
+}
+.gate-btn:disabled {
+  opacity: 0.8;
+  cursor: default;
+}
+.gate-error {
+  min-height: 20px;
+  font-size: 13px;
+  color: #c92a42;
+  font-weight: 500;
+  margin-top: 2px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.gate-error.show {
+  opacity: 1;
+}
+.shake {
+  animation: shake 0.45s ease-in-out;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
 noscript{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:#fdeaee;padding:24px;text-align:center;color:var(--ink)}
 @media (prefers-reduced-motion:reduce){
 *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;
@@ -640,8 +772,30 @@ transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavio
 <div id="bg" aria-hidden="true"></div>
 <div class="veil" id="veil" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-heart" width="24" height="24"/></svg></div>
 
+<!-- Gatekeeper Screen (Khóa mật khẩu ngày kỷ niệm 27/06/2026) -->
+<section class="screen active" id="screen-gate" aria-label="Xác thực ngày kỷ niệm">
+  <div class="gate-card" id="gateCard">
+    <div class="gate-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+    </div>
+    <h2 class="gate-title">Gửi người anh thương ♡</h2>
+    <p class="gate-sub">Bức thư này được bảo mật đặc biệt.<br>Nhập ngày kỷ niệm của chúng mình để mở khóa nhé:</p>
+    
+    <form class="gate-form" id="gateForm" onsubmit="return false;">
+      <div class="gate-input-wrap">
+        <input type="text" id="gateInput" class="gate-input" placeholder="DD/MM/YYYY" maxlength="10" inputmode="numeric" autocomplete="off" autofocus>
+      </div>
+      <button type="submit" id="gateSubmit" class="gate-btn">
+        <span>Mở khóa tình yêu</span>
+        <span>♡</span>
+      </button>
+      <p class="gate-error" id="gateError">Sai ngày rồi nè ngốc ơi ♡ Nhớ lại xem nào!</p>
+    </form>
+  </div>
+</section>
+
 <!-- GreetingScreen + FallingEnvelope -->
-<section class="screen active" id="screen-greet" aria-label="Lời chào">
+<section class="screen" id="screen-greet" aria-label="Lời chào">
 <div class="greet-inner">
 <h2 class="g g1 script">Chào em, cô gái của anh ♡</h2>
 <p class="g g2">Ngày 20 tháng 10 năm 2026</p>
@@ -1530,15 +1684,87 @@ LoveLetter.hide();
 LocketViewer.show();
 });
 
+/* ---------- GateKeeper (Xác thực ngày kỷ niệm 27/06/2026) ---------- */
+const GateKeeper = (() => {
+  const screen = $('#screen-gate');
+  const card = $('#gateCard');
+  const input = $('#gateInput');
+  const form = $('#gateForm');
+  const btn = $('#gateSubmit');
+  const err = $('#gateError');
+
+  input.addEventListener('input', () => {
+    let v = input.value.replace(/\D/g, '');
+    if (v.length > 8) v = v.slice(0, 8);
+    if (v.length >= 5) {
+      input.value = v.slice(0, 2) + '/' + v.slice(2, 4) + '/' + v.slice(4);
+    } else if (v.length >= 3) {
+      input.value = v.slice(0, 2) + '/' + v.slice(2);
+    } else {
+      input.value = v;
+    }
+    err.classList.remove('show');
+  });
+
+  function unlock() {
+    const raw = input.value.trim();
+    const digits = raw.replace(/\D/g, '');
+    const parts = raw.split(/[\/\-\.]/);
+    const isSpecialDate = (digits === '27062026') || 
+                          (parts.length === 3 && parseInt(parts[0], 10) === 27 && parseInt(parts[1], 10) === 6 && parseInt(parts[2], 10) === 2026);
+
+    if (isSpecialDate) {
+      err.classList.remove('show');
+      btn.disabled = true;
+      btn.innerHTML = '<span>Đúng rồi nè! Đang mở thư... ♡</span>';
+      
+      const [x, y] = center(card);
+      burst(x, y, 18);
+
+      setTimeout(() => {
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.92)';
+      }, 300);
+
+      setTimeout(() => {
+        screen.classList.remove('active');
+        const greet = $('#screen-greet');
+        greet.classList.add('active');
+        GreetingScreen.enter();
+      }, 750);
+    } else {
+      card.classList.remove('shake');
+      void card.offsetWidth;
+      card.classList.add('shake');
+      err.textContent = 'Sai ngày rồi nè ngốc ơi ♡ Nhớ lại xem nào!';
+      err.classList.add('show');
+      input.focus();
+    }
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    unlock();
+  });
+  btn.addEventListener('click', unlock);
+
+  function focus() {
+    setTimeout(() => {
+      try { input.focus(); } catch(e){}
+    }, 400);
+  }
+
+  return { focus };
+})();
+
 /* ---------- Khởi động ---------- */
 (async function init() {
-const fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-await Promise.race([fonts, new Promise(r => setTimeout(r, 1200))]);
-$('#veil').classList.add('hide');
+  const fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  await Promise.race([fonts, new Promise(r => setTimeout(r, 1200))]);
+  $('#veil').classList.add('hide');
 
-// Bắt đầu trực tiếp với màn hình Lời chào & Phong bì rơi
-GreetingScreen.enter();
-checkUrlAdmin();
+  checkUrlAdmin();
+  GateKeeper.focus();
 })();
 })();
 </script>
